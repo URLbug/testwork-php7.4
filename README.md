@@ -1,3 +1,9 @@
+Технологии:
+PHP 7.4
+Docker
+Laravel 8
+JavaScript
+
 Быстрый старт:
 
 ```
