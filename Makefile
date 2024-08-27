@@ -19,9 +19,6 @@ stop:
 build:
 	sudo docker-compose build
 
-full-build:
-	sudo bash build.bash
-
 help:
 	@echo all commands:
 
