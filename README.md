@@ -9,7 +9,6 @@ JavaScript
 ```
 make start
 make composer o="install"
-make php-artisan o="migrate"
 ```
 
 Ссылка на локальный сервер:
