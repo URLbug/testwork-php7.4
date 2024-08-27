@@ -11,7 +11,7 @@
 </body>
 
 <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-<script src="{{ asset('/js/script.js') }}"></script>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="{{ asset('/js/script.js') }}"></script>
 
 </html>
