@@ -2,13 +2,25 @@
 
 namespace App\DummyJson;
 
+use App\DummyJson\Service\PostsJsonTrait;
+use App\DummyJson\Service\ProductsJsonTrait;
+use App\DummyJson\Service\RecipesJsonTrait;
+use App\DummyJson\Service\UsersJsonTrait;
+
 final class DummyJson implements DummyJsonInterface
 {
-    private string $api = 'https://dummyjson.com/products';
-    private string $params = '?';
+    use ProductsJsonTrait, RecipesJsonTrait, PostsJsonTrait, UsersJsonTrait;
+
+    private string $api = 'https://dummyjson.com';
+    private string $params = '';
+
+    function __construct(string $table)
+    {
+        $this->api .= '/' . $table;
+    }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, mixed><string, mixed>
      */
     private function curlRequest(
         string $url, 
@@ -36,26 +48,35 @@ final class DummyJson implements DummyJsonInterface
 
     function get(): array 
     {
-        $url = $this->api . $this->params;
+        $url = $this->api;
+        
+        if($this->params !== '')
+        {
+            return $this->curlRequest($url . '?' . $this->params);
+        }
 
         return $this->curlRequest($url);
     }
 
+    function add(): array
+    {
+        return [];
+    }
+
+    /**
+     * Находит по ID продукт.
+     * @param int $id
+     * @return array<string, mixed>
+     */
     function findBy(int $id): array
     {
         return $this->curlRequest($this->api . '/' . $id);
     }
 
-    function category(?string $byCatrgory = null): array 
-    {
-        if(isset($byCatrgory))
-        {
-            return $this->curlRequest($this->api . '/category/' . $byCatrgory);
-        }
-
-        return $this->curlRequest($this->api . '/category-list');
-    }
-
+    /**
+     * @param int $limit
+     * @return \App\DummyJson\DummyJson
+     */
     function limit(int $limit = 0): DummyJson
     {
         $this->params .= '&limit=' . $limit;
@@ -63,6 +84,10 @@ final class DummyJson implements DummyJsonInterface
         return $this;
     }
 
+    /**
+     * @param int $skip
+     * @return \App\DummyJson\DummyJson
+     */
     function skip(int $skip = 0): DummyJson
     {
         $this->params .= '&skip=' . $skip;
@@ -70,6 +95,10 @@ final class DummyJson implements DummyJsonInterface
         return $this;
     }
 
+    /**
+     * @param array $select
+     * @return \App\DummyJson\DummyJson
+     */
     function select(array $select): DummyJson
     {
         $this->params .= '&select=' . join(',', $select);
@@ -77,6 +106,10 @@ final class DummyJson implements DummyJsonInterface
         return $this;
     }
 
+    /**
+     * @param string $query
+     * @return \App\DummyJson\DummyJson
+     */
     function query(string $query): DummyJson
     {
         $this->params .= '&q=' . $query;
@@ -84,6 +117,11 @@ final class DummyJson implements DummyJsonInterface
         return $this;
     }
 
+    /**
+     * Summary of sortBy
+     * @param string $sortBy
+     * @return \App\DummyJson\DummyJson
+     */
     function sortBy(string $sortBy = 'title'): DummyJson
     {
         $this->params .= '&sortBy=' . $sortBy;
@@ -91,6 +129,10 @@ final class DummyJson implements DummyJsonInterface
         return $this;
     }
 
+    /**
+     * @param string $orderBy
+     * @return \App\DummyJson\DummyJson
+     */
     function orderBy(string $orderBy = 'asc'): DummyJson
     {
         $this->params .= '&order=' . $orderBy;

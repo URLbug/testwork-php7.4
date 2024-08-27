@@ -4,11 +4,15 @@ namespace App\DummyJson;
 
 interface DummyJsonInterface
 {
-    /**
-     * @param int $limit
-     * @param int $skip
-     * @param array<string> $select
+     /**
+     * Получает данные об продукте.
+     * Если были использованы какие-то параметры, то возвращает вмести с ними.
      * @return array<string, mixed>
      */
     function get(): array;
+
+    /**
+     * @return array
+     */
+    function add(): array;
 }
