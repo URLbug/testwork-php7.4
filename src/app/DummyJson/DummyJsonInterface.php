@@ -12,7 +12,9 @@ interface DummyJsonInterface
     function get(): array;
 
     /**
-     * @return array
+     * Добавление данных
+     * @param array $data
+     * @return array<string, mixed>
      */
-    function add(): array;
+    function add(array $data): array;
 }

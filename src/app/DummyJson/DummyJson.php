@@ -29,6 +29,7 @@ final class DummyJson implements DummyJsonInterface
     ): array {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type:application/json']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
@@ -58,9 +59,9 @@ final class DummyJson implements DummyJsonInterface
         return $this->curlRequest($url);
     }
 
-    function add(): array
+    function add(array $data): array
     {
-        return [];
+        return $this->curlRequest($this->api . '/add', 'POST', $data);
     }
 
     /**
